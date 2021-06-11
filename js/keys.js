@@ -1,0 +1,2 @@
+const OPEN_WEATHER_MAP_TOKEN = "6d02a180bc1eea7b81c8c4ad1edae670";
+const token = "pk.eyJ1IjoiZGFya21hZ2VtYW40IiwiYSI6ImNrcHBtdzM2OTAya3oycXB0NjUyd2FwbGQifQ.ZxkFur5nI3aJZ19VNyDMFA"
