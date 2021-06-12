@@ -22,6 +22,7 @@ let geocoder = setGeoCoder();
 addGeocoderToMap(geocoder)
 addGeocoderEvent(event)
 setPopUp()
+
 function setGeoCoder() {
 
     return new MapboxGeocoder({
@@ -30,24 +31,28 @@ function setGeoCoder() {
         marker: false
     })
 };
+
 //add geocoder
 
 function addGeocoderToMap(geocoder) {
     map.addControl(geocoder);
 }
+
 function addGeocoderEvent() {
 
     geocoder.on("result", function (event) {
         // marker.setLngLat(event.result.geometry.coordinates)
-                marker.setLngLat(event.result.geometry.coordinates).setPopup(getPopup(event.result.place_name));
+        marker.setLngLat(event.result.geometry.coordinates).setPopup(getPopup(event.result.place_name));
 
     })
 }
+
 // creates marker
 
 function setMarker(point) {
     return new mapboxgl.Marker().setLngLat(point).addTo(map);
 }
+
 // add event to map that changes location based on user click
 
 function addMapEvent() {
@@ -56,32 +61,18 @@ function addMapEvent() {
         marker.setLngLat(e.lngLat).addTo(map);
     })
 }
+
 function setPopUp(textDetails) {
 
     let popup = new mapboxgl.Popup().setHTML(`<p>${textDetails}</p>`)
         .addTo(map);
     marker.setPopup(popup);
 }
+
 function getPopup(textDetails) {
 
     return new mapboxgl.Popup().setHTML(`<p>${textDetails}</p>`).addTo(map);
 }
-
-
-
-$.ajax("http://api.openweathermap.org/data/2.5/forecast", {
-    data: {
-        APPID: OPEN_WEATHER_MAP_TOKEN,
-        lat:    25.7617,
-        lon:   -80.1918,
-        units: "imperial",
-    },
-    success: function (data){
-        console.log(data)
-    }
-});
-
-
 
 
 ///////                 Below original fixed code             !!!!!!!!!!!
