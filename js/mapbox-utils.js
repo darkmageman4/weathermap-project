@@ -32,7 +32,7 @@ function setGeoCoder() {
     })
 };
 
-//add geocoder
+// add geocoder
 function addGeocoderToMap(geocoder) {
     map.addControl(geocoder);
 }
@@ -55,6 +55,14 @@ function addMapEvent() {
         marker.setLngLat(e.lngLat).addTo(map);
     })
 }
+function addGeocoderEvent() {
+    geocoder.on("result", function (event) {
+        console.log(event);
+        // marker.setLngLat(event.result.geometry.coordinates)
+        setMarker(event.result.geometry.coordinates).setPopup(getPopup(event.result.place_name));
+
+    })
+}
 
 function setPopUp(textDetails) {
     let popup = new mapboxgl.Popup().setHTML(`<p>${textDetails}</p>`)
@@ -66,9 +74,21 @@ function getPopup(textDetails) {
     return new mapboxgl.Popup().setHTML(`<p>${textDetails}</p>`).addTo(map);
 }
 
-function addGeocoderEvent() {
-    geocoder.on("result", function (event) {
-        console.log(event);
-        marker.setLngLat(event.result.geometry.coordinates)
-    })
+$(document).ready(function () {
+    function getCityWeather(cityCoordinates) {
+        $.get("https://api.darksky.net/forecast/67b712ca42b8a1c502ad5da0ab0c40e3/"+ cityCoordinates + "?exclude=minutely,hourly,daily,alerts,flags", function(jsonData){
+            console.log(jsonData.currently);
+            $("#location").text(JSON.stringify(jsonData.currently));
+        }, "jsonp");
+    }
+
+function getWeather(){
+    $.getJSON("https://ipapi.co/json/", function(jsonData){
+        // console.log(jsonData);
+        var cityCoordinates = jsonData.latitude +","+ jsonData.longitude;
+        // console.log(cityCoordinates);
+        getCityWeather(cityCoordinates);
+    });
 }
+getWeather();
+});
