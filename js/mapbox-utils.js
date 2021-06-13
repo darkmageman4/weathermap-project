@@ -27,23 +27,29 @@ function setGeoCoder() {
 resultsFromGeocoder(event)
 function resultsFromGeocoder() {
     map.addControl(geocoder);//add geocoder to map
-    geocoder.on("result", function (event) {
-        console.log(event.)
-        marker.setLngLat(event.result.geometry.coordinates).setPopup(createsPopup(event.result.place_name));
-        console.log(marker)
+    geocoder.on("result", function (event) { // comes in event array
+        console.log(event)
+        console.log(event.result.place_name)
+        console.log(event.result.geometry.coordinates[1]) //lat
+        console.log(event.result.geometry.coordinates[0]) //long
+      // let coordinates = event.results.geometry.coordinates
+           marker.setLngLat(event.result.geometry.coordinates).setPopup(createsPopup(event.result.place_name));
+        // console.log(marker)
+        // console.log(coordinates)
+        mapboxCoordinates(event.result.geometry.coordinates)// this will send coordinates to weathermap-utils
     })
 }
 
 
 //should I name coordinate variable
-function geoCoderEventOnResult (geoCoderResult) {
-    geoCoderResult.on('result',function (data){
-        let coordinates = data.result.geometry.coordinates
-        marker.setLngLat(coordinates)
-            .addTo(map);
-        weatherMapUtils(coordinates);
-    })
-}
+// function geoCoderEventOnResult (geoCoderResult) {
+//     geoCoderResult.on('result',function (data){
+//         let coordinates = data.result.geometry.coordinates
+//         marker.setLngLat(coordinates)
+//             .addTo(map);
+//         weatherMapUtils(coordinates);
+//     })
+// }
 
 //call function to give method and initial pointer (Miami)
 let marker = markerCreator([-80.24007381597617, 26.155512538141295])
