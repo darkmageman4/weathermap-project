@@ -2,57 +2,62 @@ mapboxgl.accessToken = token;
 
 var map = new mapboxgl.Map({
     container: "map",
-    style: "mapbox://styles/mapbox/outdoors-v11",
+    style: "mapbox://styles/mapbox/outdoors-v10",
     center: [-80.1918, 25.7617],
     zoom: 11,
-})
+});
 
-//create new geocoder
 
+
+// let marker;
 let geocoder = setGeoCoder();
+geoCoderEventOnResult(geocoder);
+
 function setGeoCoder() {
     return new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl,
         marker: false //reset marker
     })
-};
+}
 
-// inputBox(geocoder) //function for functionally inputBox
-//add geocoder
-// function inputBox(geocoder) {
-//     map.addControl(geocoder);//add geocoder to map
-// }
-
-resultsFromGeocoder(event)
-function resultsFromGeocoder() {
+inputBox(geocoder) //function for functionally inputBox
+// add geocoder
+function inputBox(geocoder) {
     map.addControl(geocoder);//add geocoder to map
-    geocoder.on("result", function (event) { // comes in event array
-        console.log(event)
-        console.log(event.result.place_name)
-        console.log(event.result.geometry.coordinates[1]) //lat
-        console.log(event.result.geometry.coordinates[0]) //long
-      // let coordinates = event.results.geometry.coordinates
-           marker.setLngLat(event.result.geometry.coordinates).setPopup(createsPopup(event.result.place_name));
-        // console.log(marker)
-        // console.log(coordinates)
-        mapboxCoordinates(event.result.geometry.coordinates)// this will send coordinates to weathermap-utils
+
+}
+function geoCoderEventOnResult(geoCoderResult){
+
+
+    // display results when search
+    geoCoderResult.on('result', function (data) {
+        let coordinates = data.result.geometry.coordinates
+
+
+           marker.setLngLat(data.result.geometry.coordinates).setPopup(createsPopup(data.result.place_name));
+
+        // weatherMapUtils(event.result.geometry.coordinates);
+        weatherMapUtils(coordinates);
+
+
+    });
+}
+
+resultsFromGeocoder();
+function resultsFromGeocoder() {
+
+    map.on('click', function (event) {
+
+
+        weatherMapUtils([event.lngLat.lng, event.lngLat.lat]);
+
     })
 }
 
 
-//should I name coordinate variable
-// function geoCoderEventOnResult (geoCoderResult) {
-//     geoCoderResult.on('result',function (data){
-//         let coordinates = data.result.geometry.coordinates
-//         marker.setLngLat(coordinates)
-//             .addTo(map);
-//         weatherMapUtils(coordinates);
-//     })
-// }
-
-//call function to give method and initial pointer (Miami)
 let marker = markerCreator([-80.24007381597617, 26.155512538141295])
+
 
 // creates marker
 function markerCreator(point) {
@@ -66,12 +71,96 @@ function whatHappensWhenMapIsClicked() {
     map.on("click", function (e) {
         console.log(e.lngLat)
         marker.setLngLat(e.lngLat).addTo(map);
+
     })
 }
 
 function createsPopup(textDetails) {
     return new mapboxgl.Popup().setHTML(`<p>${textDetails}</p>`).addTo(map);
 }
+
+//////////START///////
+
+
+// mapboxgl.accessToken = token;
+//
+// var map = new mapboxgl.Map({
+//     container: "map",
+//     style: "mapbox://styles/mapbox/outdoors-v11",
+//     center: [-80.1918, 25.7617],
+//     zoom: 11,
+// })
+
+// //create new geocoder
+//
+// let geocoder = setGeoCoder();
+// function setGeoCoder() {
+//     return new MapboxGeocoder({
+//         accessToken: mapboxgl.accessToken,
+//         mapboxgl: mapboxgl,
+//         marker: false //reset marker
+//     })
+// };
+// //
+// // inputBox(geocoder) //function for functionally inputBox
+// //add geocoder
+// // function inputBox(geocoder) {
+// //     map.addControl(geocoder);//add geocoder to map
+// // }
+//
+// resultsFromGeocoder(event)
+// function resultsFromGeocoder() {
+//     map.addControl(geocoder);//add geocoder to map
+//     geocoder.on("result", function (event) { // comes in event array
+//         console.log(event)
+//         console.log(event.result.place_name)
+//         console.log(event.result.geometry.coordinates[1]) //lat
+//         console.log(event.result.geometry.coordinates[0]) //long
+//       // let coordinates = event.results.geometry.coordinates
+//            marker.setLngLat(event.result.geometry.coordinates).setPopup(createsPopup(event.result.place_name));
+//         // console.log(marker)
+//         // console.log(coordinates)
+//         mapboxCoordinates(event.result.geometry.coordinates)// this will send coordinates to weathermap-utils
+//     })
+// }
+//
+//
+//should I name coordinate variable
+// function geoCoderEventOnResult (geoCoderResult) {
+//     geoCoderResult.on('result',function (data){
+//         let coordinates = data.result.geometry.coordinates
+//         marker.setLngLat(coordinates)
+//             .addTo(map);
+//         weatherMapUtils(coordinates);
+//     })
+// }
+//
+// //call function to give method and initial pointer (Miami)
+// let marker = markerCreator([-80.24007381597617, 26.155512538141295])
+//
+// // creates marker
+// function markerCreator(point) {
+//     return new mapboxgl.Marker().setLngLat(point).addTo(map);
+// }
+//
+// // call clickFunction after marker has been initially set
+// whatHappensWhenMapIsClicked(marker)
+// // add event to map that changes location based on user click
+// function whatHappensWhenMapIsClicked() {
+//     map.on("click", function (e) {
+//         console.log(e.lngLat)
+//         marker.setLngLat(e.lngLat).addTo(map);
+//
+//     })
+// }
+//
+// function createsPopup(textDetails) {
+//     return new mapboxgl.Popup().setHTML(`<p>${textDetails}</p>`).addTo(map);
+// }
+
+////////FINISH///////
+
+
 
 
 ///////                 Below original fixed code             !!!!!!!!!!!
