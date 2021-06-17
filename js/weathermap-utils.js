@@ -1,18 +1,3 @@
-// function domdata(data) {
-//
-//     let arr = [];
-//
-//     for(let i = 0; i < data.list.length; i++){
-//
-//         if(i % 8 === 0){
-//             arr.push(data.list[i]);
-//         }
-//     }
-//     return arr;
-// }
-
-
-
 
 function weatherMapUtils(coordinates) {
     $.ajax({
@@ -41,29 +26,7 @@ function myLoopFunction(data) {
     console.log(data)
     let obj = [];
     for (let i = 0; i < data.list.length; i++) {
-
-
-
-        // function domdata(data) {
-//
-//     let arr = [];
-//
-//     for(let i = 0; i < data.list.length; i++){
-//
-//         if(i % 8 === 0){
-//             arr.push(data.list[i]);
-//         }
-//     }
-//     return arr;
-// }
-
-
-
         if (i % 8 === 0) {
-
-
-
-
             obj.push({
                 country: data.city.country,
                 //for county two letters
@@ -82,20 +45,7 @@ function myLoopFunction(data) {
                 icon: data.list[i].weather[0].icon,
                 // icon next to DTG
 
-
                 /// have to able to fit into this
-// let paddyWagon = `
-//                         //             <div>
-//                         //                 <div class >${product.title}</td>
-//                         //                 <div class >${product.quantity}</td>
-//                         //                 <div class >${product.categories}</td>
-//                         //                 <div class >${product.price}</td>
-//                         //             </div> `
-//                 $("#insertProducts").append(paddyWagon)
-
-// return obj;
-// }
-
             })
         }
     }
