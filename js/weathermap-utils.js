@@ -18,7 +18,6 @@ function weatherMapUtils(coordinates) {
 }
 
 
-// // 1.loop own function
 // // 2. dom own function passing data into it
 // // 3. working function : function container
 
